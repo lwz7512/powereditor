@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>editor</title>
+    <title>PowerEditor_v0.1</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/main.css">
@@ -13,12 +13,12 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-          <a class="brand" href="#">PowerEditor</a><!-- logo -->
+          <a class="brand" href="#">PowerEditor</a><!-- product name -->
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="active"><a href="#">产品编辑</a></li>
-              <li><a href="#about">产品管理</a></li>
-              <li><a href="#contact">素材管理</a></li>
+              <li><a href="#">产品管理</a></li>
+              <li><a href="#">素材管理</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -26,19 +26,40 @@
     </div>
     <!-- edit module -->
     <div class="show-grid ">
-      <div id="thumbnails" class="span2">
-        <div id="playbox" style="width:170px;height:40px;background-color:#D5E4F3">playBOX</div>
-        <div id="slides" style="width:170px;height:560px;background-color:#DDDDDD"></div>
+      <div id="thumbnails" class="span2"><!--left column-->        
+        <div id="playbox" class="btn-toolbar"><!--play toolbar-->
+          <div class="btn-group">
+            <a id="new_page" class="btn" href="javascript:void(0);" title="New Page"><i class="icon-file"></i></a>
+            <a id="clone_page" class="btn" href="javascript:void(0);" title="Clone Page"><i class="icon-plus-sign"></i></a>
+            <a id="play_slide" class="btn" href="javascript:void(0);" title="Play Pages"><i class="icon-play"></i></a>
+            <a id="stop_slide" class="btn" href="javascript:void(0);" title="Stop Paly"><i class="icon-stop"></i></a>
+          </div>
+        </div>
+        <div id="slides" ></div><!--slides thumbnails-->
       </div>
-      <div id="centerstage" class="span8">centerstage</div>
-      <div id="proptpanel" class="span2">
-        <div id="toolbox" style="width:170px;height:80px;background-color:#D5E4F3">TOOLBOX</div>
-        <div id="properties" style="width:170px;height:80px;background-color:#999999"></div>
-        <div id="events" style="width:170px;height:80px;background-color:#666666"></div>
-        <div id="effects" style="width:170px;height:80px;background-color:#333333"></div>
+      <div id="centerstage" class="span8"><!--center column-->
+        centerstage
       </div>
-    </div><!-- /row -->    
-
+      <div id="proptpanel" class="span2"><!--right column-->
+        <div id="toolbar" class="btn-toolbar"><!--edit toolbar-->
+          <div class="btn-group">
+            <a id="add_html" class="btn" href="javascript:void(0);" title="Add HTML..."><i class="icon-tags"></i></a>
+            <a id="add_image" class="btn" href="javascript:void(0);" title="Add Image..."><i class="icon-picture"></i></a>
+            <a id="add_video" class="btn" href="javascript:void(0);" title="Add Video..."><i class="icon-film"></i></a>
+            <a id="add_audio" class="btn" href="javascript:void(0);" title="Add Audio..."><i class="icon-volume-up"></i></a>
+          </div>
+        </div>
+        <div id="properties" ><!--element properties editor-->
+          <p style="color:#0000FF">Properties Editor</p>
+        </div>
+        <div id="events" ><!--element events editor-->
+          <p style="color:#0000FF">Events Editor</p>
+        </div>
+        <div id="effects" ><!--element effects editor-->
+          <p style="color:#0000FF">Effects Editor</p>
+        </div>
+      </div>
+    </div><!-- /row -->
     <!-- logic -->
     <script src="bower_components/jquery/jquery.js"></script>
     <script src="bower_components/requirejs/require.js" data-main="js/main.js"></script>

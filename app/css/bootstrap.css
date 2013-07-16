@@ -3637,8 +3637,8 @@ input[type="submit"].btn.btn-mini {
 }
 
 .btn-toolbar {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 2px;/* original 10px*/
+  margin-bottom: 2px;/* original 10px*/
   font-size: 0;
 }
 

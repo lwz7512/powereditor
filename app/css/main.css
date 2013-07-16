@@ -10,19 +10,49 @@ body {
 
 #thumbnails {
 	height: 600px;
-}      
-
+}
 #centerstage {
 	height: 600px;
-} 
-
+}
 #proptpanel {
 	height: 600px;
 } 
 
+#playbox {
+  width:170px;height:40px;
+}
+#slides {
+  width:170px;height:560px;
+  overflow-y:auto;/* show scrollbar while children height is beyond div*/
+
+}
+#toolbar {
+  width:170px;height:40px;
+}
+#properties {
+  width:170px;height:80px;background-color:#999999;
+}
+#events {
+  width:170px;height:80px;background-color:#666666;
+}
+#effects {
+  width:170px;height:80px;background-color:#333333;
+}
+
+/********* multipile item class *****************/
+.thumbitem {
+  width:126px;height:100px;
+  background-color:#F5F5F5;
+  border: 1px solid #ccc;
+  margin: 10px;
+}
+.selected {
+  background-color: #C1E1FF;
+}
+/*******************main section style **********************************/
 .show-grid {
   margin-top: 0px;
-  /**margin-bottom: 20px;*/
+  margin-bottom: 20px;
 }
 .show-grid [class*="span"] {
   background-color: #eee;

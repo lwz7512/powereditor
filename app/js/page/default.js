@@ -1,3 +1,6 @@
+/*
+  main module setup...
+*/
 define(function (require) {
 
   'use strict';
@@ -6,8 +9,10 @@ define(function (require) {
    * Module dependencies
    */
 
-  // var myComponent = require('component/my_component');
-
+  var playbox = require('component/playbox');
+  var toolbar = require('component/toolbar');
+  var thumbnails = require('component/thumbnails');
+  
   /**
    * Module exports
    */
@@ -19,8 +24,11 @@ define(function (require) {
    */
 
   function initialize() {
-    // myComponent.attachTo(document);
-    console.log("ok, performance better !");
+    playbox.attachTo(document);
+    toolbar.attachTo(document);
+    thumbnails.attachTo(document);
+    
+    
   }
 
 });

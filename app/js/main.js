@@ -1,11 +1,12 @@
 'use strict';
 
 requirejs.config({
-  baseUrl: '',
+  baseUrl: './',
   paths: {
     'flight': 'bower_components/flight',
     'component': 'js/component',
-    'page': 'js/page'
+    'page': 'js/page',
+    'text': 'bower_components/requirejs/plugins/text'
   }
 });
 
@@ -19,7 +20,7 @@ require(
   ],
 
   function(compose, registry, advice, withLogging, debug) {
-    debug.enable(true);
+    // debug.enable(true);
     compose.mixin(registry, [advice.withAdvice, withLogging]);
 
     require(['page/default'], function(initializeDefault) {
