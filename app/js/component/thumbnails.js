@@ -70,6 +70,8 @@ define(function (require) {
       var $item = $(data.el);
       $item.addClass(this.attr.selectedClass);//select
       
+      this.trigger('ThumbNailSelected');//component dispatch event!
+
     };
 
     this.trace = function(msg) {

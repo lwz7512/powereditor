@@ -12,7 +12,7 @@ define(function (require) {
   var playbox = require('component/playbox');
   var toolbar = require('component/toolbar');
   var thumbnails = require('component/thumbnails');
-  
+  var centralstage = require('component/centralstage');
   
   /**
    * Module exports
@@ -28,7 +28,7 @@ define(function (require) {
     playbox.attachTo(document);
     toolbar.attachTo(document);
     thumbnails.attachTo(document);
-    
+    centralstage.attachTo(document);
     
   }
 

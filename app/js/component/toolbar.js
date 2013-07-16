@@ -15,6 +15,10 @@ define(function(require) {
   require('jquery/plugins/bootstrap-transition');
   require('ckeditor/ckeditor');
 
+  String.prototype.trimnewline = function() {
+      return this.replace(/\n|\r/g, '');
+    };
+
   /**
    * Module exports
    */
@@ -27,23 +31,34 @@ define(function(require) {
 
   function toolbar() {
 
+      var editor, initeditor = false;
+
       this.defaultAttrs({
           //selectors
           addHTMLSelector: '#add_html',
-          editSelector: '#content'
+          saveHTMLSelector: '#saveHTML'
         });
 
       this.after('initialize', function() {
           var template = utils.tmpl(htmlEditorTmpl);
           $('body').append(template); //prepare the editor html
-
-          // this.embedCKEditor();//create ckeditor in dialog
-
+          
+          
           this.on(document, 'click', {
               'addHTMLSelector': this.addHTMLSelectorClickHandler, //click on add html button
+              'saveHTMLSelector': this.sendHTMLHandler,
             });
 
         }); //end of initialize
+
+
+      this.sendHTMLHandler = function() {
+          $('#bootStrapModal').modal('hide');
+
+          var rawdata = editor.getData().trimnewline();
+          
+          this.trigger('HtmlWriteDown', {html: rawdata});
+        };
 
       this.addHTMLSelectorClickHandler = function() {
           // show the editor dialog
@@ -51,24 +66,39 @@ define(function(require) {
           
           this.embedCKEditor();//create ckeditor in dialog
 
+          editor.setData('');
+          
         };
 
+      this.editHTMLConfirmHandler = function() {
+          this.trace('save html...');
+        };
+
+      
       this.embedCKEditor = function() {
-          var iWidth = '380px'; //弹出窗口的宽度;
-          var iHeight = '480px'; //弹出窗口的高度;         
-          CKEDITOR.replace('content', {
-              lang: 'zh-cn',
-              width: 745,
-              height: 350,
-              filebrowserImageUploadUrl: '/ckeditorUpload/ckuploader?Type=Image',
-              filebrowserImageBrowseUrl: '/ckeditorUpload/filebrowser.jsp?Type=Image',
-              filebrowserVideoBrowseUrl: '/ckeditorUpload/filebrowser.jsp?Type=Video',
-              filebrowserWindowWidth: iWidth,
-              filebrowserWindowHeight: iHeight,
-              allowedContent: true,
-              startupFocus : true
-            });
+        if(initeditor) {
+          return;
         }
+
+        var iWidth = '380px'; //弹出窗口的宽度;
+        var iHeight = '480px'; //弹出窗口的高度;         
+        CKEDITOR.replace('content', {
+            lang: 'zh-cn',
+            width: 745,//编辑器的宽度
+            height: 350,//编辑器高度
+            filebrowserImageUploadUrl: '/ckeditorUpload/ckuploader?Type=Image',
+            filebrowserImageBrowseUrl: '/ckeditorUpload/filebrowser.jsp?Type=Image',
+            filebrowserVideoBrowseUrl: '/ckeditorUpload/filebrowser.jsp?Type=Video',
+            filebrowserWindowWidth: iWidth,
+            filebrowserWindowHeight: iHeight,
+            allowedContent: true,
+            startupFocus : true,
+            resize_enabled: false
+          });
+        
+        initeditor = true;
+        editor = CKEDITOR.instances['content'];
+      }
 
       this.trace = function(msg) {
           if (console) { console.log(msg);}

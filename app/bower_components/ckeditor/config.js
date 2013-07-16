@@ -18,13 +18,13 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Scayt' ] },
 		{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
 		{ name: 'insert', items: [ 'Image', 'Table', 'Video', 'HorizontalRule', 'SpecialChar'] },
-		{ name: 'tools', items: [ 'Maximize' ] },		
-		{ name: 'others', items: [ '-' ] },
+		{ name: 'tools', items: [ 'Maximize'] },		
+		{ name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source' ] },
 		'/',
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Strike', '-', 'RemoveFormat' ] },
 		{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote' ] },
-		{ name: 'styles', items: [ 'Styles', 'Format' ] },
-		{ name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source' ] },
+		{ name: 'styles', items: [ 'Styles', 'Format', 'FontSize' ] },
+		{ name: 'colors', items: [ 'TextColor', 'BGColor' ] },
 	];
 	
 
