@@ -3,10 +3,12 @@
 requirejs.config({
   baseUrl: './',
   paths: {
-    'flight': 'bower_components/flight',
-    'component': 'js/component',
     'page': 'js/page',
-    'text': 'bower_components/requirejs/plugins/text'
+    'component': 'js/component',
+    'flight': 'bower_components/flight',
+    'text': 'bower_components/requirejs/plugins/text',
+    'jquery': 'bower_components/jquery',
+    'ckeditor': 'bower_components/ckeditor'
   }
 });
 
@@ -20,7 +22,7 @@ require(
   ],
 
   function(compose, registry, advice, withLogging, debug) {
-    // debug.enable(true);
+    debug.enable(false);
     compose.mixin(registry, [advice.withAdvice, withLogging]);
 
     require(['page/default'], function(initializeDefault) {

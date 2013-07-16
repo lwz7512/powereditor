@@ -13,6 +13,7 @@ define(function (require) {
   var toolbar = require('component/toolbar');
   var thumbnails = require('component/thumbnails');
   
+  
   /**
    * Module exports
    */

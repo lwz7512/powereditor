@@ -8,8 +8,8 @@ define(function (require) {
 
   // var thumbicon = require('./thumbicon');
   var defineComponent = require('flight/lib/component');
-  var thumbTmpl = require('text!templates/thumbitem.html');
   var utils = require('js/utils');
+  var thumbTmpl = require('text!templates/thumbitem.html');
   
   var thumbitems = [];
   /**
@@ -53,7 +53,9 @@ define(function (require) {
       this.select('slideContainer').append(template(param));
 
       var newchild= this.select('slideContainer').children().last();
+      newchild.data('id', this.attr.counter);
       thumbitems.push(newchild);
+      //this.trace(newchild.data('id'));
 
       return newchild;
     };

@@ -26,7 +26,7 @@ define(function (require) {
     });
 
     this.newPageSelectorClickHandler = function() {
-      // this.trace('New page clicked!');
+      // thumbnails module listen on this event
       this.trigger('TOOL_ADD_PAGE');
     };
 
