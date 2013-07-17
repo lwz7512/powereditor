@@ -5,5 +5,5 @@
 define([
 	'depot'
 ], function (depot) {
-	return depot('todos', { idAttribute: 'id' });
+	return depot('peditor', { idAttribute: 'id' });
 });

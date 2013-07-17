@@ -12,12 +12,21 @@ body {
 	height: 600px;
 }
 #centerstage {
-	height: 600px;
+	height: 600px;  
+}
+#totalcanvas {
+  width: 97.9%;
+  height: 99%;
+  border: 1px solid #ccc;
+  background-color: #F5F5F5;
+  margin:2px;
+  padding-left: 10px;
+  text-align: left;
+  overflow: hidden;/* clip the content*/
 }
 #proptpanel {
 	height: 600px;
-} 
-
+}
 #playbox {
   width:170px;height:40px;
 }

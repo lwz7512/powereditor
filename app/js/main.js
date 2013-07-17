@@ -3,12 +3,13 @@
 requirejs.config({
   baseUrl: './',
   paths: {
-    'page': 'js/page',
-    'component': 'js/component',
     'flight': 'bower_components/flight',
     'text': 'bower_components/requirejs/plugins/text',
     'jquery': 'bower_components/jquery',
-    'ckeditor': 'bower_components/ckeditor'
+    'ckeditor': 'bower_components/ckeditor',
+    'component': 'js/component',
+    'model': 'js/model',
+    'page': 'js/page',
   }
 });
 

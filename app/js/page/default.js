@@ -9,6 +9,7 @@ define(function (require) {
    * Module dependencies
    */
 
+  var sections = require('model/sections');
   var playbox = require('component/playbox');
   var toolbar = require('component/toolbar');
   var thumbnails = require('component/thumbnails');
@@ -29,6 +30,7 @@ define(function (require) {
     toolbar.attachTo(document);
     thumbnails.attachTo(document);
     centralstage.attachTo(document);
+    sections.attachTo(document);
     
   }
 

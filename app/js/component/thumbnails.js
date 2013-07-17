@@ -38,40 +38,55 @@ define(function (require) {
           'thumbItemSelector': this.toggleItemSelect
         });
       
-      var firstThumbnail = this.onAddPage();//create the first thumbnail!
-      firstThumbnail.addClass(this.attr.selectedClass);
+      this.onAddPage();//create the first thumbnail!      
 
+      this.trace('>>> thumbnails module init!');
     });//end of initialize
 
     this.onAddPage = function() {
-      // this.trace(this.attr.slideContainer);
-      // thumbicon.create('call thumbicon!');
       
       this.attr.counter ++;
+
+      //create thumbnail
       var param = {counter: this.attr.counter};
       var template = utils.tmpl(thumbTmpl);
       this.select('slideContainer').append(template(param));
-
+      //cache new thumbnail
       var newchild= this.select('slideContainer').children().last();
-      newchild.data('id', this.attr.counter);
+      newchild.data('id', this.attr.counter);//save data by jquery api
       thumbitems.push(newchild);
-      //this.trace(newchild.data('id'));
 
-      return newchild;
+      //prepare toggle selection
+      this.clearSelection();
+      //select the new thumbnail
+      newchild.addClass(this.attr.selectedClass);
+
+      this.notifyModel();
     };
 
     this.toggleItemSelect = function(ev, data) {
-      //this.trace(thumbitems);
+      
       //clear all selected first
+      this.clearSelection();
+
+      var $item = $(data.el);//conver to jquery object
+      $item.addClass(this.attr.selectedClass);//select
+
+      //dispatch to sections to keep current page;
+      var param = {id : $item.data('id')};
+      this.trace(param);
+      this.trigger('ThumbNailSelected', param);
+
+    };
+
+    this.clearSelection = function () {
       for(var i in thumbitems){
         thumbitems[i].removeClass(this.attr.selectedClass);//unselect
       }
+    };
 
-      var $item = $(data.el);
-      $item.addClass(this.attr.selectedClass);//select
-      
-      this.trigger('ThumbNailSelected');//component dispatch event!
-
+    this.notifyModel = function () {
+      this.trigger('AddSelection', {id : this.attr.counter});
     };
 
     this.trace = function(msg) {

@@ -57,6 +57,7 @@ define(function(require) {
 
           var rawdata = editor.getData().trimnewline();
           
+          //notify centralstage to render
           this.trigger('HtmlWriteDown', {html: rawdata});
         };
 
@@ -84,7 +85,7 @@ define(function(require) {
         var iHeight = '480px'; //弹出窗口的高度;         
         CKEDITOR.replace('content', {
             lang: 'zh-cn',
-            width: 745,//编辑器的宽度
+            width: 780,//编辑器的宽度
             height: 350,//编辑器高度
             filebrowserImageUploadUrl: '/ckeditorUpload/ckuploader?Type=Image',
             filebrowserImageBrowseUrl: '/ckeditorUpload/filebrowser.jsp?Type=Image',
@@ -92,7 +93,7 @@ define(function(require) {
             filebrowserWindowWidth: iWidth,
             filebrowserWindowHeight: iHeight,
             allowedContent: true,
-            startupFocus : true,
+            //startupFocus : true,//this function cause editor input failed occasionally!
             resize_enabled: false
           });
         
