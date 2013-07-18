@@ -10,6 +10,7 @@ requirejs.config({
     'component': 'js/component',
     'model': 'js/model',
     'page': 'js/page',
+    'helper': 'js/helper',
   }
 });
 

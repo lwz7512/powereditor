@@ -46,13 +46,13 @@ define(function(require) {
           
           this.on(document, 'click', {
               'addHTMLSelector': this.addHTMLSelectorClickHandler, //click on add html button
-              'saveHTMLSelector': this.sendHTMLHandler,
+              'saveHTMLSelector': this.cacheHTMLHandler,
             });
 
         }); //end of initialize
 
 
-      this.sendHTMLHandler = function() {
+      this.cacheHTMLHandler = function() {
           $('#bootStrapModal').modal('hide');
 
           var rawdata = editor.getData().trimnewline();

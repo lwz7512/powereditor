@@ -32,7 +32,7 @@
             <a id="new_page" class="btn" href="javascript:void(0);" title="New Page"><i class="icon-file"></i></a>
             <a id="clone_page" class="btn" href="javascript:void(0);" title="Clone Page"><i class="icon-plus-sign"></i></a>
             <a id="play_slide" class="btn" href="javascript:void(0);" title="Play Pages"><i class="icon-play"></i></a>
-            <a id="exit_slide" class="btn" href="javascript:void(0);" title="Export Pages"><i class="icon-share"></i></a>
+            <a id="export_slide" class="btn" href="javascript:void(0);" title="Export Pages"><i class="icon-share"></i></a>
           </div>
         </div>
         <div id="slides" ></div><!--slides thumbnails-->
@@ -62,6 +62,9 @@
       </div>
     </div><!-- /row -->
     <!-- logic -->
+    <script type="text/javascript">
+      var SERVICE_URL = '/snms/seviceapi';
+    </script>
     <script src="bower_components/jquery/jquery.js"></script>
     <script src="bower_components/requirejs/require.js" data-main="js/main.js"></script>
   </body>

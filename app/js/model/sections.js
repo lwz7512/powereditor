@@ -15,6 +15,9 @@ define(function (require) {
    */
 
   var defineComponent = require('flight/lib/component');
+  var exporterModule = require('helper/exporter');
+  var utils = require('js/utils');
+  var progressTmpl = require('text!templates/progressbar.html');
 
   var model = {};//core object
 
@@ -38,14 +41,29 @@ define(function (require) {
 
     this.after('initialize', function () {
       model.sections = [];
-      this.addBlankSection(null, {id: 1, html: ''});
 
       this.on(document, 'AddSelection', this.addBlankSection);
       this.on(document, 'StageUpdated', this.updateModel);//stage rerendered
       this.on(document, 'ThumbNailSelected', this.toggleCurrentSection);//thumbnail swithed
+      this.on(document, 'SendPagesToBackend', this.sendHtmlAndXml);//export confirm clicked
 
-      this.trace('>>> sections module init!');
+      var template = utils.tmpl(progressTmpl);
+      $('body').append(template); //prepare the confirm dialog html
+
     });//end of initialize
+
+    this.sendHtmlAndXml = function () {      
+      this.trace('>>> format data...');
+      
+      var result = exporterModule.create(this.getAll());
+      this.trace('>>> sending: ');
+      this.trace(result);
+
+     $('#progressModal').modal();
+
+     //TODO, jquery ajax post...
+
+    };
 
     this.toggleCurrentSection = function (e, data) {
       currentSection = this.searchSectionBy(data.id);
@@ -53,18 +71,16 @@ define(function (require) {
         this.trace('>>> Warning, section not found: '+data.id);
       }else{//notify the centralstage to rerender
         this.trigger('CurrentSectionReady', currentSection);
-      }      
+      }
     };
 
     this.updateModel = function (e, data) {
-      this.trace('>> updateModel: '+data.html);
-      this.trace(this.getAll());
-
+      // this.trace('>> updateModel: '+data.html);
+      // this.trace(this.getAll());
       currentSection.html = data.html;
-
     };
 
-    this.addBlankSection = function (e, data) {
+    this.addBlankSection = function (e, data) {//sponsor by thumbnails
       var section = {id: data.id, html: ''};
       model.sections.push(section);//save new page
 
@@ -98,13 +114,14 @@ define(function (require) {
 
     this.traceAll = function () {
       this.getAll().forEach(function(s){
-        this.trace('>>> '+s.id+' : '+s.html);
+        this.trace('>>>section '+s.id+' : '+s.html);
       }, this);
     }
 
     this.trace = function(msg) {
       if (console) { console.log(msg);}
     };
+
 
   }//end of component
 

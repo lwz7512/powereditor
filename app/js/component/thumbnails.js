@@ -44,16 +44,14 @@ define(function (require) {
     });//end of initialize
 
     this.onAddPage = function() {
-      
-      this.attr.counter ++;
-
       //create thumbnail
-      var param = {counter: this.attr.counter};
+      var newSectionId = this.now();
+      var param = {counter: newSectionId};
       var template = utils.tmpl(thumbTmpl);
       this.select('slideContainer').append(template(param));
       //cache new thumbnail
       var newchild= this.select('slideContainer').children().last();
-      newchild.data('id', this.attr.counter);//save data by jquery api
+      newchild.data('id', newSectionId);//save data by jquery api
       thumbitems.push(newchild);
 
       //prepare toggle selection
@@ -61,7 +59,7 @@ define(function (require) {
       //select the new thumbnail
       newchild.addClass(this.attr.selectedClass);
 
-      this.notifyModel();
+      this.notifyModel(newSectionId);
     };
 
     this.toggleItemSelect = function(ev, data) {
@@ -74,7 +72,7 @@ define(function (require) {
 
       //dispatch to sections to keep current page;
       var param = {id : $item.data('id')};
-      this.trace(param);
+      // this.trace(param);
       this.trigger('ThumbNailSelected', param);
 
     };
@@ -85,13 +83,18 @@ define(function (require) {
       }
     };
 
-    this.notifyModel = function () {
-      this.trigger('AddSelection', {id : this.attr.counter});
+    this.notifyModel = function (secid) {
+      this.trigger('AddSelection', {id : secid});
     };
 
     this.trace = function(msg) {
       if(console) { console.log(msg); }
     };
+
+    this.now = function () {
+      var date = new Date();
+      return date.getTime().toString();
+    };    
 
   }//end of thumbnails
 
