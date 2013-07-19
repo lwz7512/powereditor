@@ -36,7 +36,7 @@ define(function (require) {
   function sections() {
 
     this.defaultAttrs({
-
+      
     });//end of attrs
 
     this.after('initialize', function () {
@@ -46,24 +46,42 @@ define(function (require) {
       this.on(document, 'StageUpdated', this.updateModel);//stage rerendered
       this.on(document, 'ThumbNailSelected', this.toggleCurrentSection);//thumbnail swithed
       this.on(document, 'SendPagesToBackend', this.sendHtmlAndXml);//export confirm clicked
+      this.on(document, 'RequestCurrentSection', this.sendCurrentSection);
 
       var template = utils.tmpl(progressTmpl);
       $('body').append(template); //prepare the confirm dialog html
 
     });//end of initialize
 
-    this.sendHtmlAndXml = function () {      
-      this.trace('>>> format data...');
-      
+    this.sendCurrentSection = function(){
+      this.trigger('CurrentSectionServed', currentSection);
+    }
+
+    this.sendHtmlAndXml = function () {
       var result = exporterModule.create(this.getAll());
-      this.trace('>>> sending: ');
+      if(!result){
+        alert('blank!');
+        return;
+      }
       this.trace(result);
+      return;
 
-     $('#progressModal').modal();
+      $('#progressModal').modal();      
 
-     //TODO, jquery ajax post...
+      this.trace('>>> sending: ');
+         
 
-    };
+      //TODO, jquery ajax post...
+      // var slidePagesSendUrl = SERVICE_URL + '?sendSlidePages';
+      // $.post(slidePagesSendUrl, result)
+      //   .done(function(data) {//on success
+      //     alert("Data sended: " + data);
+      //   })
+      //   .fail(function() { 
+      //      alert("error"); 
+      //   });    
+
+    };//end of sendHtmlAndXml
 
     this.toggleCurrentSection = function (e, data) {
       currentSection = this.searchSectionBy(data.id);

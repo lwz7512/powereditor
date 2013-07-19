@@ -86,7 +86,7 @@ define(function (require) {
     this.refreshed = function () {
       var innerhtml = this.select('stageSelector').html();
       innerhtml = $.trim(innerhtml.replace(/<!--(.*?)-->/ig, ''));//remove comment
-      this.trace('>>> stage content: '+innerhtml);
+      // this.trace('>>> stage content: '+innerhtml);
       this.trigger('StageUpdated', { html : innerhtml});//notify model to update
     };
 

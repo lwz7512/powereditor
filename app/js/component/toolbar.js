@@ -10,10 +10,11 @@ define(function(require) {
 
   var utils = require('js/utils');
   var htmlEditorTmpl = require('text!templates/bootCKEditor.html');
+  var exporterModule = require('helper/exporter');
 
   require('jquery/plugins/bootstrap-modal');
   require('jquery/plugins/bootstrap-transition');
-  require('ckeditor/ckeditor');
+  require('ckeditor/ckeditor');  
 
   String.prototype.trimnewline = function() {
       return this.replace(/\n|\r/g, '');
@@ -42,12 +43,13 @@ define(function(require) {
       this.after('initialize', function() {
           var template = utils.tmpl(htmlEditorTmpl);
           $('body').append(template); //prepare the editor html
-          
+
+          this.on(document, 'CurrentSectionServed', this.currentSectionHandler);//listen on section event
           
           this.on(document, 'click', {
-              'addHTMLSelector': this.addHTMLSelectorClickHandler, //click on add html button
-              'saveHTMLSelector': this.cacheHTMLHandler,
-            });
+            'addHTMLSelector': this.addHTMLSelectorClickHandler, //click on add html button
+            'saveHTMLSelector': this.cacheHTMLHandler,
+          });
 
         }); //end of initialize
 
@@ -55,10 +57,9 @@ define(function(require) {
       this.cacheHTMLHandler = function() {
           $('#bootStrapModal').modal('hide');
 
-          var rawdata = editor.getData().trimnewline();
-          
+          var trimmed = editor.getData().trimnewline();          
           //notify centralstage to render
-          this.trigger('HtmlWriteDown', {html: rawdata});
+          this.trigger('HtmlWriteDown', {html: trimmed});
         };
 
       this.addHTMLSelectorClickHandler = function() {
@@ -67,29 +68,48 @@ define(function(require) {
           
           this.embedCKEditor();//create ckeditor in dialog
 
-          editor.setData('');
+          //GET CURRENT SECTION FROM SECTIONS MODULE
+          this.trigger('RequestCurrentSection');
           
         };
 
-      this.editHTMLConfirmHandler = function() {
-          this.trace('save html...');
-        };
+      this.currentSectionHandler = function(e, data) {
+          this.trace(data.html);
+          //chrome can convert html element in current doc
+          var doc = exporterModule.strToElement(data.html);          
+          var children = $(doc).find("div");
+          var defaulthtml = '';          
 
+          for(var i = 0; i < children.length; i++){
+            if (children[i].className == 'htmlblock') {//get htmlblock              
+              defaulthtml = children[i].innerHTML;//NOTE THIS API FOR INNER DOM ELEMENT!
+            }
+          }
+          this.trace("restore html: "+defaulthtml);
+          if(editor) {
+            editor.setData(defaulthtml);
+          }
+      };
+
+      this.editHTMLConfirmHandler = function() {
+        this.trace('save html...');
+      };
       
       this.embedCKEditor = function() {
         if(initeditor) {
           return;
         }
 
-        var iWidth = '380px'; //弹出窗口的宽度;
-        var iHeight = '480px'; //弹出窗口的高度;         
+        var iWidth = 380; //弹出窗口的宽度;
+        var iHeight = 480; //弹出窗口的高度;         
         CKEDITOR.replace('content', {
             lang: 'zh-cn',
             width: 780,//编辑器的宽度
             height: 350,//编辑器高度
-            filebrowserImageUploadUrl: '/ckeditorUpload/ckuploader?Type=Image',
-            filebrowserImageBrowseUrl: '/ckeditorUpload/filebrowser.jsp?Type=Image',
-            filebrowserVideoBrowseUrl: '/ckeditorUpload/filebrowser.jsp?Type=Video',
+            filebrowserBrowseUrl : '/manager/ckfinder/ckfinder.html',
+            filebrowserImageBrowseUrl : '/manager/ckfinder/ckfinder.html?type=Images',
+            filebrowserUploadUrl : '/manager/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files',
+            filebrowserImageUploadUrl : '/manager/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
             filebrowserWindowWidth: iWidth,
             filebrowserWindowHeight: iHeight,
             allowedContent: true,

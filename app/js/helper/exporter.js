@@ -20,13 +20,12 @@ define(function () {
    */
 
   function exporter(msg) {
-    var isIE = isIEBrowser();
+    // var isIE = isIEBrowser();
     //trace(isIE);
-    if (isIE) {
-      trace('>>> Warning, IE Browser not surport data save!');
-      return;
-    }
-
+    // if (isIE) {
+    //   trace('>>> Warning, IE Browser not surport data save!');
+    //   return null;
+    // }
 
     //convert htmlblock to section, and put in html body...
     var htmlpage = convertoHTML(msg);
@@ -41,14 +40,13 @@ define(function () {
     var html = '<html>';
     //todo, and head and title?
     html += '<body>';
-
-    var parser = new DOMParser();
+    
     for(var i in sections) {
       html += '<section ' + 'id="' + sections[i].id + '">';      
 
-      var doc = parser.parseFromString(sections[i].html, "text/xml");
-      var children = doc.childNodes;
-      for(var e = 0; e < children.length; e++){        
+      var root = strToElement(sections[i].html);
+      var children = $(root).find("div");
+      for(var e = 0; e < children.length; e++){      
         if (children[e].className == 'htmlblock') {//get htmlblock only          
           var elemstr = elementToString(children[e]);
           html += elemstr;          
@@ -64,23 +62,17 @@ define(function () {
     return html;
   }
 
-  function elementToString (elem) {
-    var serializer = new XMLSerializer();
-    return serializer.serializeToString(elem);
-  }
-
-  function composeXMLMeta(sections) {   
+  function composeXMLMeta(sections) {
     var app = '<app>';
     app += '<pages>';
 
-    var parser = new DOMParser();
     for(var i in sections) {
       app += '<page id="page_' + i + '" width="768" height="1024">';
       app += '<layout>';
       
-      var doc = parser.parseFromString(sections[i].html, "text/xml");
-      var children = doc.childNodes;
-      for(var e = 0; e < children.length; e++){        
+      var root = strToElement(sections[i].html);
+      var children = $(root).find("div");
+      for(var e = 0; e < children.length; e++){
         app += createNodeByElement(children[e], sections[i].id);//compose diffrent node
       }
 
@@ -89,7 +81,7 @@ define(function () {
     }
 
     app += '</pages>';
-    app += '</app>';    
+    app += '</app>';
 
     return app;
   }
@@ -99,7 +91,7 @@ define(function () {
     if (element.className == 'htmlblock') {//get htmlblock
       node += '<node id="' + secid + '" type="html" ';
       node += 'src="html/' + secid + '.html" x="0" y="0" ';
-      node += 'width="400" height="300" backgroundcolor=""/>';      
+      node += 'width="400" height="300" backgroundcolor=""/>';
     } else if (element.className == 'imageblock') {
 
     } else if (element.className == 'videoblock') {
@@ -112,7 +104,7 @@ define(function () {
   }
   
 
-  function isIEBrowser() {
+  function browser() {
     var Browser = {
         isIE:navigator.userAgent.indexOf("MSIE")>-1 && !window.opera,  
         isGecko:navigator.userAgent.indexOf("Gecko")>-1 && !window.opera 
@@ -121,12 +113,46 @@ define(function () {
         isOpera:navigator.userAgent.indexOf("Opera")>-1
       };
 
-    return Browser.isIE;
+    return Browser;
   }
 
+  function elementToString (elem) {
+    var serializer = new XMLSerializer();
+    var result = '';
+    for(var i=0; i<elem.lenght; i++){
+      result += serializer.serializeToString(elem[i]);
+    }
+
+    return result;
+
+  }
+
+  function strToElement (str) {
+    if (browser().isKHTML){
+      return strToDoc(str);
+    }
+
+    var parser = new DOMParser();
+    var result;
+    try{
+      result = parser.parseFromString(str, "text/html");
+    }catch(e){
+      alert(e.name + ' : '  + e.message);
+    }
+    return result;
+  }
+
+  function strToDoc (str) {
+    var doc = document.implementation.createHTMLDocument("");
+    doc.body.innerHTML = str;
+    return doc;
+  }
 
   return {//export API
     create: exporter,
+    strToElement: strToElement,
+    elementToString: elementToString,
+    browser: browser,
     id: id,
   };
 
