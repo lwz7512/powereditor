@@ -58,28 +58,26 @@ define(function (require) {
     }
 
     this.sendHtmlAndXml = function () {
-      var result = exporterModule.create(this.getAll());
-      if(!result){
-        alert('blank!');
-        return;
-      }
-      this.trace(result);
-      return;
-
-      $('#progressModal').modal();      
-
+    var params = exporterModule.create(this.getAll());
+      
       this.trace('>>> sending: ');
-         
+      this.trace(params);
+      
+      params.showId = SHOW_ID;
 
       //TODO, jquery ajax post...
-      // var slidePagesSendUrl = SERVICE_URL + '?sendSlidePages';
-      // $.post(slidePagesSendUrl, result)
-      //   .done(function(data) {//on success
-      //     alert("Data sended: " + data);
-      //   })
-      //   .fail(function() { 
-      //      alert("error"); 
-      //   });    
+      var slidePagesSendUrl = SERVICE_URL + '?saveHtmlAndXml';
+      $.post(slidePagesSendUrl, params)//post result data...
+        .done(function(data) {//on success
+          $('#progressModal').modal('hide');
+          alert("Data sended: " + data);
+        })
+        .fail(function() {
+          $('#progressModal').modal('hide');
+          alert("save data error!");
+        });
+
+      $('#progressModal').modal();
 
     };//end of sendHtmlAndXml
 

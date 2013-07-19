@@ -45,11 +45,13 @@ define(function () {
       html += '<section ' + 'id="' + sections[i].id + '">';      
 
       var root = strToElement(sections[i].html);
+      trace(root);
       var children = $(root).find("div");
+      trace(children);
       for(var e = 0; e < children.length; e++){      
         if (children[e].className == 'htmlblock') {//get htmlblock only          
-          var elemstr = elementToString(children[e]);
-          html += elemstr;          
+          var elemstr = children[e].innerHTML;//FUCK, USE THIS INSTAND!!!
+          html += elemstr;
         }
       }
 
