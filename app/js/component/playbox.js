@@ -35,9 +35,7 @@ define(function (require) {
       this.trigger('TOOL_ADD_PAGE');
     };
 
-    this.after('initialize', function () {
-      var template = utils.tmpl(saveConfirmTmpl);
-      $('body').append(template); //prepare the confirm dialog html
+    this.after('initialize', function () {      
 
       this.on(document, 'click', {
         'newPageSelector': this.newPageSelectorClickHandler,//click new page button
@@ -54,12 +52,15 @@ define(function (require) {
     };
 
     this.popupExportConfirmHandler = function () {
+      var template = utils.tmpl(saveConfirmTmpl);
+      $('body').append(template); //prepare the confirm dialog html
       $('#exportConfirmModal').modal();
     };
 
     this.sendPagesHandler = function () {
       $('#exportConfirmModal').modal('hide');
-      //TODO, trigger event to sections model to send data...
+      $('#exportConfirmModal').remove();
+      
       this.trigger('SendPagesToBackend');
     };
 
