@@ -27,6 +27,7 @@ define(function (require) {
       newPageSelector: '#new_page',
       exportPageSelector: '#export_slide',
       sendConfirmSelector: '#savePages',
+      deletePageSelector: '#delete_page',
     });
 
     this.newPageSelectorClickHandler = function() {
@@ -42,9 +43,15 @@ define(function (require) {
         'newPageSelector': this.newPageSelectorClickHandler,//click new page button
         'exportPageSelector': this.popupExportConfirmHandler,//click export pages button
         'sendConfirmSelector': this.sendPagesHandler,//click save confirm button in dialog
+        'deletePageSelector': this.deletePageHandler,//click on delete page button
+
       });
 
     });//end of initialize
+
+    this.deletePageHandler = function () {
+      this.trigger('AlertShowRequest', {message: '确定要删除当前页面吗？'});
+    };
 
     this.popupExportConfirmHandler = function () {
       $('#exportConfirmModal').modal();

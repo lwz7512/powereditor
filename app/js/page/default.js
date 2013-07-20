@@ -14,7 +14,8 @@ define(function (require) {
   var toolbar = require('component/toolbar');
   var thumbnails = require('component/thumbnails');
   var centralstage = require('component/centralstage');
-  
+  var alert = require('component/alert');
+
   /**
    * Module exports
    */
@@ -33,7 +34,8 @@ define(function (require) {
     toolbar.attachTo(document);
     thumbnails.attachTo(document);
     centralstage.attachTo(document);
-        
+    alert.attachTo(document);
+    
   }
 
 });

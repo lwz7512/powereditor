@@ -5,8 +5,18 @@
 
 body {
         padding-top: 50px; /* 60px to make the container go all the way to the bottom of the topbar */
-        padding-left: 10px;
+        padding-left: 10px;        
+        overflow:hidden;
+        min-height:700px;
+        height:auto !important;
+        height:100%;
+        width:100%;
       }
+
+.modal, .modal.fade.in {
+    top: 0; /* was 10% */
+    left: 30%;
+}
 
 #thumbnails {
 	height: 600px;

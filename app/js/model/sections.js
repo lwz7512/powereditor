@@ -70,7 +70,7 @@ define(function (require) {
       $.post(slidePagesSendUrl, params)//post result data...
         .done(function(data) {//on success
           $('#progressModal').modal('hide');
-          alert("Data sended: " + data);
+          alert("产品保存: " + data);
         })
         .fail(function() {
           $('#progressModal').modal('hide');

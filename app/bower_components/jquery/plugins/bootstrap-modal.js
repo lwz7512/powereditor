@@ -162,7 +162,7 @@
           this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
             .appendTo(document.body)
 
-          //FIXM, disable the default behavior that closing window when click on back!
+          //FIXME: disable the default behavior that closing window when click on back!
           //2013/07/18
           // this.$backdrop.click(
           //   this.options.backdrop == 'static' ?
