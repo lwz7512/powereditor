@@ -19,10 +19,6 @@ define(function (require) {
   var utils = require('js/utils');
   var progressTmpl = require('text!templates/progressbar.html');
 
-  var model = {};//core object
-
-  var currentSection;
-
   /**
    * Module exports
    */
@@ -35,6 +31,10 @@ define(function (require) {
 
   function sections() {
 
+    var model = {};//core object
+
+    var currentSection;
+
     this.defaultAttrs({
       
     });//end of attrs
@@ -45,6 +45,7 @@ define(function (require) {
       this.on(document, 'AddSelection', this.addBlankSection);
       this.on(document, 'StageUpdated', this.updateModel);//stage rerendered
       this.on(document, 'ThumbNailSelected', this.toggleCurrentSection);//thumbnail swithed
+      this.on(document, 'DeleteSelectedThumbnail', this.deleteCurrentSelection);
       this.on(document, 'SendPagesToBackend', this.sendHtmlAndXml);//export confirm clicked
       this.on(document, 'RequestCurrentSection', this.sendCurrentSection);
 
@@ -58,7 +59,7 @@ define(function (require) {
     }
 
     this.sendHtmlAndXml = function () {
-    var params = exporterModule.create(this.getAll());
+      var params = exporterModule.create(this.getAll());
       
       this.trace('>>> sending: ');
       this.trace(params);
@@ -90,6 +91,18 @@ define(function (require) {
       }
     };
 
+    this.deleteCurrentSelection = function (e, data) {
+      // this.trace('to delete: '+data.id);
+
+      for(var i in this.getAll()){
+        if(this.getAll()[i].id == data.id){
+          this.getAll().splice(i, 1);
+          // this.trace('deleted: '+data.id);
+        }
+      }
+      // this.traceAll();
+    };
+
     this.updateModel = function (e, data) {
       // this.trace('>> updateModel: '+data.html);
       // this.trace(this.getAll());
@@ -106,16 +119,8 @@ define(function (require) {
       this.trigger('ClearStage');
     };
 
-    this.updateSection = function (e, data) {
-
-    };
-
-    this.deleteSection = function () {
-
-    };
-
     this.searchSectionBy = function (id) {
-      this.trace('>>> searching: '+id);
+      // this.trace('>>> searching: '+id);
       for(var i in this.getAll()){
         if(this.getAll()[i].id == id){
           return this.getAll()[i];
@@ -130,7 +135,7 @@ define(function (require) {
 
     this.traceAll = function () {
       this.getAll().forEach(function(s){
-        this.trace('>>>section '+s.id+' : '+s.html);
+        this.trace('>>>remaining section '+s.id+' : '+s.html);
       }, this);
     }
 

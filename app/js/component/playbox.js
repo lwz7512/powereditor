@@ -48,7 +48,8 @@ define(function (require) {
     });//end of initialize
 
     this.deletePageHandler = function () {
-      this.trigger('AlertShowRequest', {message: '确定要删除当前页面吗？'});
+      var data = {message: '确定要删除当前页面吗？', action: 'deleteCurrentPage'};
+      this.trigger('AlertShowRequest', data);
     };
 
     this.popupExportConfirmHandler = function () {
